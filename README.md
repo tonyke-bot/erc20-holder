@@ -41,9 +41,9 @@ Analyze DAI token holders from blocks 15,000,000 to 16,000,000:
 ```bash
 erc20-holders \
   --rpc https://eth.merkle.io \
-  --token 0x6b175474e89094c44da98b954eedeac495271d0f \
   --from-block 15000000 \
-  --to-block 16000000
+  --to-block 16000000 \
+  0x6b175474e89094c44da98b954eedeac495271d0f
 ```
 
 Analyze multiple tokens with increased parallelism:
@@ -60,7 +60,7 @@ Use IPC connection:
 ```bash
 erc20-holders \
   --rpc file:///tmp/reth.ipc \
-  --token 0x6b175474e89094c44da98b954eedeac495271d0f
+  0x6b175474e89094c44da98b954eedeac495271d0f
 ```
 
 ## Output
