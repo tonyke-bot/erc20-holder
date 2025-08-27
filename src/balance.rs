@@ -12,10 +12,11 @@ use crate::TransferEvent;
 pub struct BalanceSheet {
     // (token, account) -> (inflow, outflow)
     pub in_out_flow: HashMap<(Address, Address), (U256, U256)>,
+    pub total_transfers: usize,
 }
 
 impl BalanceSheet {
-    pub fn extend(&mut self, events: &[TransferEvent]) {
+    pub fn extend(&mut self, events: impl Iterator<Item = TransferEvent>) {
         for event in events {
             self.in_out_flow
                 .entry((event.token, event.to))
@@ -26,6 +27,8 @@ impl BalanceSheet {
                 .entry((event.token, event.from))
                 .and_modify(|(_, outflow)| *outflow += event.value)
                 .or_insert((U256::ZERO, event.value));
+
+            self.total_transfers += 1;
         }
     }
 

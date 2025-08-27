@@ -142,7 +142,6 @@ async fn main() {
     pb.tick();
 
     let mut balances = BalanceSheet::default();
-    let mut total_transfers = 0;
     let mut failed_chunk = 0;
     let semaphore = Semaphore::new(args.concurrent_requests);
 
@@ -157,7 +156,7 @@ async fn main() {
             .expect("Failed to create cache directory");
 
         pb.println("Reading cache...");
-        read_cache(&p, &pb, &mut ranges, &mut balances).await;
+        read_cache(&p, &pb, &args.tokens, &mut ranges, &mut balances).await;
 
         Some(p)
     };
@@ -198,15 +197,13 @@ async fn main() {
             }
         };
 
-        let count = result.len();
-        balances.extend(&result);
-        total_transfers += count;
+        balances.extend(result.into_iter());
         pb.inc(1);
     };
 
     pb.finish_and_clear();
 
-    println!("Total transfers: {}", total_transfers);
+    println!("Total transfers: {}", balances.total_transfers);
 
     if !finish {
         println!("Received Ctrl+C, shutting down...");
@@ -247,6 +244,7 @@ async fn main() {
 async fn read_cache(
     cache_dir: &Path,
     pb: &ProgressBar,
+    tokens: &[Address],
     ranges: &mut Vec<(u64, u64)>,
     balances: &mut BalanceSheet,
 ) {
@@ -272,7 +270,7 @@ async fn read_cache(
             }
         };
 
-        balances.extend(&c);
+        balances.extend(c.into_iter().filter(|e| tokens.contains(&e.token)));
         used_cache.insert((from, to));
         pb.inc(1);
     }
