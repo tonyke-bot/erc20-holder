@@ -1,0 +1,16 @@
+[package]
+name = "erc20-holders"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+alloy = { version = "1.0.25", features = ["full"] }
+arrow = "56.1.0"
+clap = { version = "4.5.45", features = ["derive", "env"] }
+eyre = "0.6.12"
+futures = "0.3.31"
+indicatif = { version = "0.18.0", features = ["tokio"] }
+md-5 = "0.10.6"
+parquet = { version = "56.1.0", features = ["async"] }
+thiserror = "2.0.16"
+tokio = { version = "1.47.1", features = ["full"] }
