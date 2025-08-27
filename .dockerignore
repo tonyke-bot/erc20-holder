@@ -1,0 +1,27 @@
+# Git
+.git
+.github
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Rust
+target/
+**/*.rs.bk
+
+# Data and cache files
+data/
+**/*.csv
+**/*.parquet
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Misc
+.DS_Store
+*.log
